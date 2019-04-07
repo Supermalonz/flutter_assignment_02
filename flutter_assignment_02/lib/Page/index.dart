@@ -12,7 +12,7 @@ class IndexState extends State<Index> {
   TodoProvider todo = TodoProvider();
   String name = "Todo";
   int position = 0;
-  int lenall = 0;
+  int lenth = 0;
   List<Todo> notcomplete = [];
   List<Todo> completed = [];
 
@@ -37,7 +37,7 @@ class IndexState extends State<Index> {
         },
       ),
     ];
-    var list_view = new FutureBuilder<List<Todo>>(
+    var list_all_todo = new FutureBuilder<List<Todo>>(
       future: todo.getAll(),
       builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
         switch (snapshot.connectionState) {
@@ -56,10 +56,10 @@ class IndexState extends State<Index> {
     );
     final List<Widget> _children = [
       Center(
-        child: list_view,
+        child: list_all_todo,
       ),
       Center(
-        child: list_view,
+        child: list_all_todo,
       )
     ];
     return new Scaffold(
@@ -92,7 +92,7 @@ class IndexState extends State<Index> {
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     notcomplete = [];
     completed = [];
-    lenall = snapshot.data.length;
+    lenth = snapshot.data.length;
     for (var i in snapshot.data) {
       if (i.done == false) {
         notcomplete.add(i);
@@ -118,14 +118,12 @@ class IndexState extends State<Index> {
                     },
                     value: notcomplete[index].done,
                   )),
-              new Divider(
-                height: 2.0,
-              ),
             ],
           );
         },
       );
-    } else if (position == 1 && completed.length > 0) {
+    } 
+    else if (position == 1 && completed.length > 0) {
       return new ListView.builder(
         itemCount: completed.length,
         itemBuilder: (BuildContext context, int index) {
@@ -143,14 +141,12 @@ class IndexState extends State<Index> {
                     },
                     value: completed[index].done,
                   )),
-              new Divider(
-                height: 2.0,
-              ),
             ],
           );
         },
       );
-    } else {
+    } 
+    else {
       return new Center(
         child: Text("No data found...."),
       );
