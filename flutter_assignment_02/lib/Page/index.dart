@@ -39,35 +39,31 @@ class IndexState extends State<Index> {
     ];
     var list_all_todo = new FutureBuilder<List<Todo>>(
       future: todo.getAll(),
-      builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
-        switch (snapshot.connectionState) {
+      builder: (BuildContext context, AsyncSnapshot<List<Todo>> j) {
+        switch (j.connectionState) {
           default:
-            if (snapshot.hasError) {
-              // return new Text('Error: ${snapshot.error}');
+            if (j.hasError) {
               return new Center(
                 child: Text("No data found....."),
               );
             } else {
-              // return new Text('Result: ${snapshot.data[0].title}');
-              return createListView(context, snapshot);
+              return createListView(context, j);
             }
         }
       },
     );
-    final List<Widget> _children = [
-      Center(
-        child: list_all_todo,
-      ),
-      Center(
-        child: list_all_todo,
-      )
+    final List<Widget> _btnpositon = 
+    [
+      Center(child: list_all_todo),
+      Center(child: list_all_todo)
     ];
+    
     return new Scaffold(
       appBar: AppBar(
           title: Text("Todo"), actions: <Widget>[allbutton[position]]),
-      body: _children[position],
+      body: _btnpositon[position],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped, // new
+        onTap: tapped, // new
         currentIndex: position, // new
         items: [
           BottomNavigationBarItem(
@@ -83,17 +79,17 @@ class IndexState extends State<Index> {
     );
   }
 
-  void onTabTapped(int index) {
+  void tapped(int index) {
     setState(() {
       position = index;
     });
   }
 
-  Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
+  Widget createListView(BuildContext context, AsyncSnapshot j) {
     notcomplete = [];
     completed = [];
-    lenth = snapshot.data.length;
-    for (var i in snapshot.data) {
+    lenth = j.data.length;
+    for (var i in j.data) {
       if (i.done == false) {
         notcomplete.add(i);
       } else {
